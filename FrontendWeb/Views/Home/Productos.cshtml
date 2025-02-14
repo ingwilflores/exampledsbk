@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Productos";
+}
+
+<h2>Lista de Productos</h2>
+<button onclick="obtenerProductos()">Obtener Productos</button>
+<ul id="productosLista"></ul>
+
+<button onclick="cerrarSesion()">Cerrar Sesión</button>
+
+<script src="~/js/auth.js"></script>
+<script>
+    async function obtenerProductos() {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("Debes iniciar sesión primero.");
+            window.location.href = "/Home/Login";
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/productos`, {
+                method: "GET",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+
+            if (!response.ok) {
+                throw new Error("No autorizado. Inicia sesión nuevamente.");
+            }
+
+            const productos = await response.json();
+            const lista = document.getElementById("productosLista");
+            lista.innerHTML = "";
+
+            productos.forEach(producto => {
+                const item = document.createElement("li");
+                item.textContent = `${producto.nombre} - $${producto.precio}`;
+                lista.appendChild(item);
+            });
+        } catch (error) {
+            alert(error.message);
+            cerrarSesion();
+        }
+    }
+
+    function cerrarSesion() {
+        localStorage.removeItem("token");
+        window.location.href = "/Home/Login";
+    }
+</script>

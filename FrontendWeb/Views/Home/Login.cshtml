@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<h2 class="text-center">Iniciar Sesión</h2>
+
+<form id="loginForm" class="text-center">
+    <div class="mb-3">
+        <label class="form-label">Usuario</label>
+        <input type="text" id="username" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input type="password" id="password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+</form>
+
+<p id="loginError" class="text-danger"></p>
+
+<script src="~/js/app.js"></script>
